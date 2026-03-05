@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Join MeetOn Call</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --border: rgba(139, 92, 246, 0.15);
+            --glow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+        }
+
+        .card {
+            background: rgba(18, 18, 26, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glow);
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 24px;
+        }
+
+        .logo img {
+            height: 64px;
+            width: auto;
+            max-width: 250px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-join {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-join:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Waiting state */
+        .waiting-box {
+            display: none;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(139, 92, 246, 0.1);
+            border-top: 4px solid var(--accent-1);
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-text {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .denied-text {
+            color: #f87171;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card" id="joinCard">
+            <div class="logo">
+                <img src="../images/logo.png" alt="MeetOn" />
+            </div>
+            <h1>Join Call</h1>
+            <p>You've been invited to join a video call. Please enter your name to request entry.</p>
+
+            <div class="form-group">
+                <label for="guestName">Display Name</label>
+                <input type="text" id="guestName" placeholder="Enter your name..." maxlength="40" required />
+            </div>
+
+            <div class="form-group" id="passGroup" style="display:none;">
+                <label for="roomPass">Room Password</label>
+                <input type="password" id="roomPass" placeholder="Enter room password..." autocomplete="off" />
+            </div>
+
+            <button class="btn-join" id="knockBtn">Join Meeting</button>
+        </div>
+
+        <div class="card waiting-box" id="waitingCard">
+            <div class="loader"></div>
+            <p class="status-text">Knocking...</p>
+            <p id="waitingMsg">Waiting for the host to let you in.</p>
+            <p class="denied-text" id="deniedMsg">The host has declined your request.</p>
+        </div>
+    </div>
+
+    <script>
+        const knockBtn = document.getElementById('knockBtn');
+        const guestNameInput = document.getElementById('guestName');
+        const roomPassInput = document.getElementById('roomPass');
+        const passGroup = document.getElementById('passGroup');
+        const joinCard = document.getElementById('joinCard');
+        const waitingCard = document.getElementById('waitingCard');
+        const waitingMsg = document.getElementById('waitingMsg');
+        const deniedMsg = document.getElementById('deniedMsg');
+        const statusText = document.querySelector('.status-text');
+
+        const roomId = window.location.pathname.split('/').pop();
+        let hasRoomPass = false;
+
+        // Check if room has password
+        async function checkPass() {
+            try {
+                const res = await fetch(`/api/room-has-pass/${roomId}`);
+                const data = await res.json();
+                if (data.hasPassword) {
+                    hasRoomPass = true;
+                    passGroup.style.display = 'block';
+                    knockBtn.textContent = 'Join with Password';
+                }
+            } catch (err) {
+                console.error('Error checking room pass', err);
+            }
+        }
+        checkPass();
+
+        knockBtn.addEventListener('click', async () => {
+            const name = guestNameInput.value.trim();
+            if (!name) return alert('Please enter your name');
+
+            // Collect password if needed
+            const pass = hasRoomPass ? roomPassInput.value : '';
+            if (hasRoomPass && !pass) return alert('Please enter the room password');
+
+            knockBtn.disabled = true;
+            knockBtn.textContent = 'Joining...';
+
+            try {
+                // Call room-auth API to verify password (or just get an admission cookie if no password)
+                const res = await fetch('/api/room-auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ roomId, roomPass: pass })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    localStorage.setItem('MeetOn_guestName', name);
+                    window.location.reload(); // Direct join since cookie is set
+                    return;
+                } else {
+                    knockBtn.disabled = false;
+                    knockBtn.textContent = hasRoomPass ? 'Join with Password' : 'Join Meeting';
+                    return alert(result.message || 'Authentication error');
+                }
+            } catch (err) {
+                console.error(err);
+                knockBtn.disabled = false;
+                knockBtn.textContent = hasRoomPass ? 'Join with Password' : 'Join Meeting';
+                return alert('Connection error');
+            }
+        });
+    </script>
+</body>
+
+</html>

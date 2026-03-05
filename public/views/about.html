@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MeetOn — About</title>
+    <link rel="shortcut icon" href="../images/logo.png" />
+    <link rel="apple-touch-icon" href="../images/logo.png" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About MeetOn — Free peer-to-peer video calls" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #12121a;
+            --text: #e8e8f0;
+            --muted: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --border: rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            padding: 40px;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .version {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        .copyright {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <img src="../images/logo.png" alt="MeetOn" class="logo" />
+        <h1>MeetOn</h1>
+        <div class="version" id="aboutVersion">WebRTC P2P Video Calls</div>
+        <p>
+            Free, secure peer-to-peer video calling powered by WebRTC.
+            No downloads, no sign-ups — just instant connections.
+        </p>
+        <hr class="divider" />
+        <div class="copyright">&copy; 2026 MeetOn</div>
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+
+    <script defer src="../js/brand.js"></script>
+</body>
+
+</html>

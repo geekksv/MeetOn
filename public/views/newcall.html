@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+    <title id="newCallTitle">MeetOn — Start a Call</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Free peer-to-peer HD video calls. No downloads or sign-ups required." />
+    <meta name="keywords"
+        content="webrtc, video call, peer to peer, p2p, video conference, screen sharing, chat, free" />
+
+    <meta property="og:type" content="{{OG_TYPE}}" />
+    <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+    <meta property="og:title" content="{{OG_TITLE}}" />
+    <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+    <meta property="og:image" content="{{OG_IMAGE}}" />
+    <meta property="og:url" content="{{OG_URL}}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --border: rgba(139, 92, 246, 0.15);
+            --glow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 48px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .logo span {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .join-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: var(--glow);
+        }
+
+        .join-box h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .join-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .join-form input {
+            flex: 1;
+            padding: 14px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .join-form input:focus {
+            border-color: var(--accent-1);
+        }
+
+        .join-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-1);
+            border-color: var(--accent-1);
+        }
+
+        .btn-join {
+            padding: 14px 28px;
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            white-space: nowrap;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-customize {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-customize:hover {
+            border-color: var(--accent-2);
+            color: var(--accent-2);
+        }
+
+        .last-room {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .last-room a {
+            color: var(--accent-2);
+            text-decoration: none;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 640px) {
+            .join-form {
+                flex-wrap: wrap;
+            }
+
+            .join-form input {
+                min-width: 100%;
+            }
+
+            .btn-join {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="logo">
+            <img src="../images/logo.png" alt="MeetOn" />
+        </a>
+
+        <h1 id="newCallRoomTitle">Pick name.<br />Share URL.<br />Start call.</h1>
+        <p id="newCallRoomDescription" class="desc">
+            Each room has its own URL. Just pick a room name and share the link. It's that easy.
+        </p>
+
+        <div class="join-box">
+            <h3 id="appJoinDescription">Pick a room name. How about this one?</h3>
+            <div class="join-form">
+                <input id="roomName" type="text" placeholder="Enter room name..." value="MeetOn" maxlength="32" />
+                <button id="genRoomButton" class="btn-icon" title="Random room">
+                    <i class="fas fa-arrows-rotate"></i>
+                </button>
+                <button id="joinRoomButton" class="btn-join">Join Room</button>
+            </div>
+            <button id="customizeRoomButton" class="btn-customize">⚙ Customize Room</button>
+            <div id="lastRoomContainer" class="last-room">
+                <span id="appJoinLastRoom">Your recent room:</span>
+                <a id="lastRoom"></a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 MeetOn</p>
+    </footer>
+
+    <script defer src="../js/utils.js"></script>
+    <script defer src="../js/brand.js"></script>
+    <script defer src="../js/landing.js"></script>
+    <script defer src="../js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+# git folder
+.git
+
+# npm
+node_modules
+npm-debug.log
+
+# bun
+bun.lock
+
+# mac
+.DS_Store
+
+# cache
+.cache
+
+# --- SENSITIVE FILES (Never push these) ---
+# Secrets & environment
+.env
+config.js
+docker-push.sh
+docker-compose.yml
+turnserver.conf
+
+# User credentials & session data
+creds.json
+rooms.json
+auth_out.json
+auth_test.json
+final_test.json
+
+# Logs & debug files
+server.log
+debug.log
+debug.txt
+curl_out.txt
+hash_n.txt
+hash_w.txt
+
+# Editor configs
+.idea
+output
+env.txt

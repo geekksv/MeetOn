@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MeetOn — Iframe Demo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Replace MeetOn.duckdns.org with YOUR-DOMAIN-NAME -->
+    <script src="/js/iframe.js" defer></script>
+</head>
+
+<body>
+    <script>
+        (async () => {
+            const domain = window.location.host; // YOUR-DOMAIN-NAME
+            const joinConfig = {
+                room: 'test',
+                name: 'MeetOn',
+                audio: 1,
+                video: 1,
+                screen: 0,
+                hide: 0,
+                notify: 0,
+                token: '',
+                info: { city: '', region: '', country: '', os: '', browser: '' },
+            };
+            const iframeConfig = {
+                iframeCustom: false,
+                iframeSrc: null,
+                iframeTitle: 'MeetOn',
+                iframeCSS: null,
+                iframeStyle: {
+                    width: '100%',
+                    height: '100vh',
+                    border: 'none',
+                },
+            };
+            openMiroTalkIframe(domain, joinConfig, iframeConfig);
+        })();
+    </script>
+</body>
+
+</html>

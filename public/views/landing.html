@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en" class="no-js">
+
+<head>
+    <title id="landingTitle">MeetOn — Free Secure Video Calls</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Free peer-to-peer HD video calls. No downloads or sign-ups required." />
+    <meta name="keywords"
+        content="webrtc, video call, peer to peer, p2p, video conference, screen sharing, chat, free" />
+
+    <meta property="og:type" content="{{OG_TYPE}}" />
+    <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+    <meta property="og:title" content="{{OG_TITLE}}" />
+    <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+    <meta property="og:image" content="{{OG_IMAGE}}" />
+    <meta property="og:url" content="{{OG_URL}}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8"></script>
+
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #222240;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --border: rgba(139, 92, 246, 0.15);
+            --glow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes bgShift {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-5%, -5%);
+            }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            height: 48px;
+            width: auto;
+            max-width: 200px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-btn {
+            padding: 10px 24px;
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .header-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            padding: 160px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+
+        /* ========== ROOM JOIN ========== */
+        .join-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 520px;
+            margin: 0 auto 24px;
+            box-shadow: var(--glow);
+        }
+
+        .join-box h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+
+        .join-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .join-form input {
+            flex: 1;
+            padding: 14px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .join-form input:focus {
+            border-color: var(--accent-1);
+        }
+
+        .join-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--bg-card-hover);
+            color: var(--accent-1);
+            border-color: var(--accent-1);
+        }
+
+        .btn-join {
+            padding: 14px 28px;
+            background: var(--gradient);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-join:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-customize {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-customize:hover {
+            border-color: var(--accent-2);
+            color: var(--accent-2);
+        }
+
+        .last-room {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .last-room a {
+            color: var(--accent-2);
+            text-decoration: none;
+        }
+
+        /* ========== FEATURES ========== */
+        .features {
+            padding: 80px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .features .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 56px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: var(--glow);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 1.3rem;
+        }
+
+        .feature-icon.purple {
+            color: var(--accent-1);
+        }
+
+        .feature-icon.cyan {
+            color: var(--accent-2);
+        }
+
+        .feature-card h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 640px) {
+            .join-form {
+                flex-wrap: wrap;
+            }
+
+            .join-form input {
+                min-width: 100%;
+            }
+
+            .btn-join {
+                width: 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="MeetOn" />
+            </a>
+            <a href="/newcall" class="header-btn">Start a Call</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1 id="appTitle">Free Video Calls.<br />No Downloads.<br />Just Connect.</h1>
+            <p id="appDescription">
+                Start a video call instantly — just pick a room name and share the link.
+                Crystal-clear HD quality with screen sharing, chat, and more.
+            </p>
+
+            <!-- Join Box -->
+            <div class="join-box">
+                <h3 id="appJoinDescription">Pick a room name. How about this one?</h3>
+                <div class="join-form">
+                    <input id="roomName" type="text" placeholder="Enter room name..." value="MeetOn" maxlength="32" />
+                    <button id="genRoomButton" class="btn-icon" title="Random room">
+                        <i class="fas fa-arrows-rotate"></i>
+                    </button>
+                    <button id="joinRoomButton" class="btn-join">Join Room</button>
+                </div>
+                <button id="customizeRoomButton" class="btn-customize">⚙ Customize Room</button>
+                <div id="lastRoomContainer" class="last-room">
+                    <span id="appJoinLastRoom">Your recent room:</span>
+                    <a id="lastRoom"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Everything you need</h2>
+            <p class="subtitle">Peer-to-peer video calls with zero servers in the middle. Maximum quality, minimum
+                latency.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-video"></i></div>
+                    <h4>HD Video Calls</h4>
+                    <p>Crystal-clear video up to 8K resolution at 60fps. Front and rear camera support on mobile
+                        devices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-desktop"></i></div>
+                    <h4>Screen Sharing</h4>
+                    <p>Share your entire screen, a window, or a tab. Present documents, slides, and applications
+                        effortlessly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-comments"></i></div>
+                    <h4>Real-time Chat</h4>
+                    <p>Send messages, emojis, and files during calls. Private messaging and full conversation history.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-circle-dot"></i></div>
+                    <h4>Recording</h4>
+                    <p>Record your screen, webcam, and audio. Save recordings locally for future reference or sharing.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-chalkboard"></i></div>
+                    <h4>Whiteboard</h4>
+                    <p>Collaborative drawing board for explaining ideas. Perfect for teaching and visual presentations.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-shield-halved"></i></div>
+                    <h4>End-to-End Secure</h4>
+                    <p>Direct peer-to-peer connections via WebRTC. Your data never touches a server. Fully encrypted.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-file-export"></i></div>
+                    <h4>File Sharing</h4>
+                    <p>Securely send documents, images, and files during calls. Fast and reliable direct transfers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-link"></i></div>
+                    <h4>Custom Rooms</h4>
+                    <p>Create personalized room URLs, set passwords, and manage meeting access with host privileges.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-infinity"></i></div>
+                    <h4>No Limitations</h4>
+                    <p>Enjoy unlimited call duration with no artificial restrictions. Host meetings as long as you need.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 MeetOn</p>
+            <p style="font-size: 0.85rem; margin-top: 5px; color: #64748b;">
+                Developed by <a href="https://github.com/geekksv" target="_blank"
+                    style="color: #06B6D4; text-decoration: none;">Keshav</a>
+            </p>
+        </div>
+    </footer>
+
+    <script defer src="../js/utils.js"></script>
+    <script defer src="../js/brand.js"></script>
+    <script defer src="../js/landing.js"></script>
+    <script defer src="../js/common.js"></script>
+</body>
+
+</html>

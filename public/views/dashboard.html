@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>MeetOn — Dashboard</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MeetOn Dashboard — Start or join a video call" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e2e8f0;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+        }
+
+        /* Top nav */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .top-bar-brand img {
+            height: 50px;
+            width: auto;
+            max-width: 280px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .top-bar-brand span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-greeting {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .user-greeting strong {
+            color: #e2e8f0;
+        }
+
+        .btn-logout {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            background: rgba(220, 38, 38, 0.15);
+            border-color: rgba(220, 38, 38, 0.3);
+            color: #f87171;
+        }
+
+        /* Main content */
+        .dashboard-main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .dashboard-main h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-main p {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 40px;
+        }
+
+        /* Room join card */
+        .room-card {
+            background: rgba(18, 18, 26, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 32px 28px;
+            backdrop-filter: blur(20px);
+            text-align: left;
+        }
+
+        .room-card label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .room-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .room-input-row input {
+            flex: 1;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .room-input-row input:focus {
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-refresh {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-refresh:hover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #8B5CF6;
+        }
+
+        .btn-join {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+            margin-bottom: 12px;
+        }
+
+        .btn-join:hover {
+            background: linear-gradient(135deg, #7C3AED, #6D28D9);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-join:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+        }
+
+        .last-room {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .last-room a {
+            color: #8B5CF6;
+            text-decoration: none;
+        }
+
+        .last-room a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            .top-bar {
+                padding: 12px 16px;
+            }
+
+            .dashboard-main {
+                padding: 40px 16px;
+            }
+
+            .user-greeting {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-bar">
+        <a class="top-bar-brand" href="/dashboard">
+            <img src="../images/logo.png" alt="MeetOn" />
+        </a>
+        <div class="top-bar-right">
+            <span class="user-greeting">Hi, <strong id="userName">User</strong></span>
+            <a href="/auth/logout" class="btn-logout"><i class="fas fa-sign-out-alt"></i>&nbsp; Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-main">
+        <h2>Start a Call</h2>
+        <p>Pick a room name and jump in — or share the link to invite others.</p>
+
+        <div class="room-card">
+            <!-- Tabs Header -->
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="showTab('join')"><i class="fas fa-sign-in-alt"></i>
+                    Join</button>
+                <button class="tab-btn" onclick="showTab('create')"><i class="fas fa-plus-circle"></i> Create</button>
+                <button class="tab-btn" onclick="showTab('custom')"><i class="fas fa-sliders-h"></i> Custom</button>
+            </div>
+
+            <!-- Join Tab -->
+            <div id="joinTab" class="tab-content active">
+                <label for="roomName">Existing Room Name</label>
+                <div class="room-input-row">
+                    <input type="text" id="roomName" placeholder="Enter room name..." maxlength="100"
+                        autocomplete="off" />
+                </div>
+                <button class="btn-join" id="joinBtn">
+                    <i class="fas fa-video"></i>&nbsp; JOIN ROOM
+                </button>
+            </div>
+
+            <!-- Create Tab -->
+            <div id="createTab" class="tab-content">
+                <label for="newRoomName">New Room Name (Auto-assigned)</label>
+                <div class="room-input-row">
+                    <input type="text" id="newRoomName" readonly />
+                    <button class="btn-refresh" id="refreshBtn" title="Generate random name">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <label for="roomPassword">Add Password (Optional)</label>
+                <div class="room-input-row">
+                    <input type="password" id="roomPassword" placeholder="Set a room password..." autocomplete="off" />
+                </div>
+                <button class="btn-join" id="createBtn"
+                    style="background: linear-gradient(135deg, #06B6D4, #0891B2); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);">
+                    <i class="fas fa-plus"></i>&nbsp; CREATE & JOIN
+                </button>
+            </div>
+
+            <!-- Custom Tab -->
+            <div id="customTab" class="tab-content">
+                <p style="text-align: center; color: #94a3b8; margin: 20px 0;">Configure advanced room settings and host
+                    privileges.</p>
+                <a href="/customizeRoom" class="btn-secondary">
+                    <i class="fas fa-cog"></i>&nbsp; Go to Customization
+                </a>
+            </div>
+
+            <div class="last-room" id="lastRoomDiv" style="display:none;">
+                Your recent room: <a href="#" id="lastRoomLink"></a>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        .tabs-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        function randomRoom() {
+            const arr = new Uint8Array(8);
+            crypto.getRandomValues(arr);
+            return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId + 'Tab').classList.add('active');
+        }
+
+        const roomInput = document.getElementById('roomName');
+        const newRoomInput = document.getElementById('newRoomName');
+        const roomPassword = document.getElementById('roomPassword');
+        const joinBtn = document.getElementById('joinBtn');
+        const createBtn = document.getElementById('createBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const lastRoomDiv = document.getElementById('lastRoomDiv');
+        const lastRoomLink = document.getElementById('lastRoomLink');
+
+        // Set initial random room name for Create tab
+        newRoomInput.value = randomRoom();
+
+        refreshBtn.addEventListener('click', () => {
+            newRoomInput.value = randomRoom();
+        });
+
+        // Join button logic
+        joinBtn.addEventListener('click', () => {
+            let room = roomInput.value.trim();
+            if (!room) return alert('Please enter a room name');
+            enterRoom(room);
+        });
+
+        // Create button logic
+        createBtn.addEventListener('click', async () => {
+            const room = newRoomInput.value;
+            const password = roomPassword.value;
+
+            try {
+                const res = await fetch('/api/create-room', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ roomId: room, password: password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    enterRoom(room);
+                } else {
+                    alert('Error creating room: ' + data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error');
+            }
+        });
+
+        function enterRoom(room) {
+            room = filterXSS(room);
+            localStorage.setItem('MeetOn_lastRoom', room);
+            window.location.href = '/join/' + encodeURIComponent(room);
+        }
+
+        const lastRoom = localStorage.getItem('MeetOn_lastRoom');
+        if (lastRoom) {
+            lastRoomDiv.style.display = 'block';
+            lastRoomLink.textContent = lastRoom;
+            lastRoomLink.href = '/join/' + encodeURIComponent(lastRoom);
+        }
+
+        const userNameEl = document.getElementById('userName');
+        if (window.__userName) userNameEl.textContent = window.__userName;
+    </script>
+</body>
+
+</html>

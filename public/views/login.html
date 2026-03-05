@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title id="loginTitle">MeetOn — Log In</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Log in to MeetOn — Secure personal video calls" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #222240;
+            --text-primary: #e8e8f0;
+            --text-secondary: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --border: rgba(139, 92, 246, 0.15);
+            --glow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes bgShift {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-5%, -5%);
+            }
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo img {
+            height: 35px;
+            width: auto;
+            max-width: 280px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ========== HERO & AUTH ========== */
+        .hero-auth {
+            padding: 80px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(18, 18, 26, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 32px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glow);
+        }
+
+        .auth-card h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .auth-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            margin-top: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--accent-1);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-msg {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #f87171;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+
+        /* ========== DASHBOARD MERGED STYLES ========== */
+        .room-card h2 {
+            text-transform: none;
+        }
+
+        .room-card label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .room-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .room-input-row input {
+            flex: 1;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .room-input-row input:focus {
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        .btn-refresh {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-refresh:hover {
+            background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.3);
+            color: #8B5CF6;
+        }
+
+        .btn-join {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+            margin-bottom: 12px;
+        }
+
+        .btn-join:hover {
+            background: linear-gradient(135deg, #7C3AED, #6D28D9);
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-join:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+        }
+
+        .last-room {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .last-room a {
+            color: #8B5CF6;
+            text-decoration: none;
+        }
+
+        .last-room a:hover {
+            text-decoration: underline;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== FEATURES ========== */
+        .features {
+            padding: 100px 0;
+            background: rgba(18, 18, 26, 0.4);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .features .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 64px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: var(--glow);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+        }
+
+        .feature-icon.purple {
+            color: var(--accent-1);
+        }
+
+        .feature-icon.cyan {
+            color: var(--accent-2);
+        }
+
+        .feature-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1000px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-auth {
+                flex-direction: column;
+                text-align: center;
+                padding: 60px 0;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .auth-card {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="../images/logo.png" alt="MeetOn" />
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero & Auth -->
+        <section class="hero-auth">
+            <div class="hero-content">
+                <h1>Secure Private Video Calls.<br />For Everyone.</h1>
+                <p>
+                    Experience crystal-clear parallel video conferencing with end-to-end encryption.
+                    No downloads, no trackers, just seamless communication.
+                </p>
+                <div style="display: flex; gap: 20px; color: var(--text-secondary); font-size: 0.9rem;">
+                    <span><i class="fas fa-check-circle" style="color: var(--accent-2)"></i> HD Quality</span>
+                    <span><i class="fas fa-check-circle" style="color: var(--accent-2)"></i> Encrypted</span>
+                    <span><i class="fas fa-check-circle" style="color: var(--accent-2)"></i> P2P Technology</span>
+                </div>
+            </div>
+
+            <div class="auth-card room-card">
+                <h2>Start a Call</h2>
+                <p>Pick a room name and jump in — or share the link to invite others.</p>
+
+                <!-- Tabs Header -->
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="showTab('join')"><i class="fas fa-sign-in-alt"></i>
+                        Join</button>
+                    <button class="tab-btn" onclick="showTab('create')"><i class="fas fa-plus-circle"></i>
+                        Create</button>
+                    <button class="tab-btn" onclick="showTab('custom')"><i class="fas fa-sliders-h"></i> Custom</button>
+                </div>
+
+                <!-- Join Tab -->
+                <div id="joinTab" class="tab-content active">
+                    <label for="roomName">Existing Room Name</label>
+                    <div class="room-input-row">
+                        <input type="text" id="roomName" placeholder="Enter room name..." maxlength="100"
+                            autocomplete="off" />
+                    </div>
+                    <button class="btn-join" id="joinBtn">
+                        <i class="fas fa-video"></i>&nbsp; JOIN ROOM
+                    </button>
+                </div>
+
+                <!-- Create Tab -->
+                <div id="createTab" class="tab-content">
+                    <label for="newRoomName">New Room Name (Auto-assigned)</label>
+                    <div class="room-input-row">
+                        <input type="text" id="newRoomName" readonly />
+                        <button class="btn-refresh" id="refreshBtn" title="Generate random name">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <label for="roomPassword">Add Password (Optional)</label>
+                    <div class="room-input-row">
+                        <input type="password" id="roomPassword" placeholder="Set a room password..."
+                            autocomplete="off" />
+                    </div>
+                    <button class="btn-join" id="createBtn"
+                        style="background: linear-gradient(135deg, #06B6D4, #0891B2); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);">
+                        <i class="fas fa-plus"></i>&nbsp; CREATE & JOIN
+                    </button>
+                </div>
+
+                <!-- Custom Tab -->
+                <div id="customTab" class="tab-content">
+                    <p style="text-align: center; color: #94a3b8; margin: 20px 0;">Configure advanced room settings and
+                        host privileges.</p>
+                    <a href="/customizeRoom" class="btn-secondary">
+                        <i class="fas fa-cog"></i>&nbsp; Go to Customization
+                    </a>
+                </div>
+
+                <div class="last-room" id="lastRoomDiv" style="display:none;">
+                    Your recent room: <a href="#" id="lastRoomLink"></a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2>Everything you need</h2>
+            <p class="subtitle">State-of-the-art features for modern teams and individual creators.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-video"></i></div>
+                    <h4>HD Video Calls</h4>
+                    <p>Crystal-clear video up to 8K resolution. Direct peer-to-peer connection ensures minimum latency.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-desktop"></i></div>
+                    <h4>Screen Sharing</h4>
+                    <p>Share windows or entire screens with a single click. High frame rate support for presentations.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-comments"></i></div>
+                    <h4>Real-time Chat</h4>
+                    <p>Built-in secure messenger with file sharing and emoji support. Everything stays private.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-palette"></i></div>
+                    <h4>Whiteboard</h4>
+                    <p>Collaborative drawing board for brainstorming. Perfect for teaching and visual explanations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-file-export"></i></div>
+                    <h4>File Sharing</h4>
+                    <p>Securely send documents, images, and files during calls. Fast and reliable direct transfers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-shield-halved"></i></div>
+                    <h4>End-to-End Secure</h4>
+                    <p>Your calls are fully encrypted. We never see or hear your conversations. Privacy is our priority.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-video"></i></div>
+                    <h4>HD Video Quality</h4>
+                    <p>Experience crystal clear video with adaptive resolution that adjusts to your connection speed.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon purple"><i class="fas fa-circle-dot"></i></div>
+                    <h4>Meeting Recording</h4>
+                    <p>Record your screen, webcam, and audio locally. Review important discussions at any time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon cyan"><i class="fas fa-sliders-h"></i></div>
+                    <h4>Custom Rooms</h4>
+                    <p>Personalize your gathering with custom URLs, waiting rooms, and password protection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2026 MeetOn. Built for privacy.</p>
+            <p style="font-size: 0.85rem; margin-top: 5px; color: #64748b;">
+                Developed by <a href="https://github.com/geekksv" target="_blank"
+                    style="color: #06B6D4; text-decoration: none;">Keshav</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function randomRoom() {
+            const arr = new Uint8Array(8);
+            crypto.getRandomValues(arr);
+            return Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId + 'Tab').classList.add('active');
+        }
+
+        const roomInput = document.getElementById('roomName');
+        const newRoomInput = document.getElementById('newRoomName');
+        const roomPassword = document.getElementById('roomPassword');
+        const joinBtn = document.getElementById('joinBtn');
+        const createBtn = document.getElementById('createBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const lastRoomDiv = document.getElementById('lastRoomDiv');
+        const lastRoomLink = document.getElementById('lastRoomLink');
+
+        // Set initial random room name for Create tab
+        newRoomInput.value = randomRoom();
+
+        refreshBtn.addEventListener('click', () => {
+            newRoomInput.value = randomRoom();
+        });
+
+        // Join button logic
+        joinBtn.addEventListener('click', () => {
+            let room = roomInput.value.trim();
+            if (!room) return alert('Please enter a room name');
+            enterRoom(room);
+        });
+
+        // Create button logic
+        createBtn.addEventListener('click', async () => {
+            const room = newRoomInput.value;
+            const password = roomPassword.value;
+
+            try {
+                const res = await fetch('/api/create-room', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ roomId: room, password: password })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    enterRoom(room);
+                } else {
+                    alert('Error creating room: ' + data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Connection error');
+            }
+        });
+
+        function enterRoom(room) {
+            room = filterXSS(room);
+            localStorage.setItem('MeetOn_lastRoom', room);
+            window.location.href = '/join/' + encodeURIComponent(room);
+        }
+
+        const lastRoom = localStorage.getItem('MeetOn_lastRoom');
+        if (lastRoom) {
+            lastRoomDiv.style.display = 'block';
+            lastRoomLink.textContent = lastRoom;
+            lastRoomLink.href = '/join/' + encodeURIComponent(lastRoom);
+        }
+    </script>
+</body>
+
+</html>

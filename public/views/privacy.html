@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title id="privacyPolicyTitle">MeetOn — Privacy Policy</title>
+    <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.png" />
+    <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.png" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MeetOn Privacy Policy" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #12121a;
+            --text: #e8e8f0;
+            --muted: #8888a0;
+            --accent-1: #8B5CF6;
+            --accent-2: #06B6D4;
+            --border: rgba(139, 92, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.04) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 80px 24px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            max-width: 280px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        strong {
+            color: var(--text);
+        }
+
+        a {
+            color: var(--accent-2);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            margin-top: 16px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            text-decoration: none;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="logo">
+            <img src="../images/logo.png" alt="MeetOn" />
+        </a>
+
+        <h1>Privacy Policy</h1>
+
+        <p>
+            We collect the minimum amount of data needed to provide a seamless video calling experience. This data
+            includes
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate"
+                target="_blank">RTCICECandidates</a> &amp;
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescription"
+                target="_blank">RTCSessionDescription</a>,
+            which are required to establish WebRTC video calls.
+        </p>
+
+        <p>
+            This data is <strong>not stored</strong> in any persistent database — it is removed from the server as soon
+            as
+            you leave the call by closing the browser window. All media streams are encrypted using
+            <strong>Secure Real-time Transport Protocol (SRTP)</strong>.
+        </p>
+
+        <p>
+            Chat messages and file sharing use WebRTC's
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/RTCDataChannel" target="_blank">RTCDataChannel</a>
+            to transfer data directly peer-to-peer. All data is secured with
+            <a href="https://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security" target="_blank">Datagram Transport
+                Layer Security</a>
+            (DTLS), providing SSL-equivalent security.
+        </p>
+
+        <p>
+            Meeting recordings are stored temporarily in <strong>your browser</strong> as a
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Blob" target="_blank">Blob</a>,
+            then downloaded directly to your device. Recordings never touch our servers.
+        </p>
+
+        <p>
+            <strong>MeetOn</strong> is purely peer-to-peer — your video, audio, chat, and files are never
+            sent to or stored on our servers.
+        </p>
+
+        <a href="/newcall" class="btn">I Agree — Start a Call</a>
+
+        <div class="footer" style="text-align: center;">
+            <p>&copy; 2026 MeetOn</p>
+            <p style="margin-top: 5px; color: #8888a0;">
+                Developed by <a href="https://github.com/geekksv" target="_blank"
+                    style="color: #06B6D4; text-decoration: none;">Keshav</a>
+            </p>
+        </div>
+    </div>
+
+    <script defer src="../js/brand.js"></script>
+</body>
+
+</html>
