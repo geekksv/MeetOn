@@ -1,0 +1,9 @@
+# Store text files with LF line endings, whatever the contributor's platform
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.mp3 binary
