@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
 
@@ -15,8 +16,17 @@ module.exports = class ServerApi {
     }
 
     isAuthorized() {
-        if (this._authorization != this._api_key_secret) return false;
-        return true;
+        const provided = this._authorization;
+        const expected = this._api_key_secret;
+
+        // A missing key on either side must never count as a match
+        if (typeof provided !== 'string' || typeof expected !== 'string' || !expected) return false;
+
+        const providedBuffer = Buffer.from(provided);
+        const expectedBuffer = Buffer.from(expected);
+        if (providedBuffer.length !== expectedBuffer.length) return false;
+
+        return crypto.timingSafeEqual(providedBuffer, expectedBuffer);
     }
 
     getStats(peers, timestamp = new Date().toISOString()) {
