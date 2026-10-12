@@ -80,8 +80,13 @@ function hasPassword(roomId) {
  */
 function verifyPassword(roomId, password) {
     const rooms = readRooms();
-    if (!rooms[roomId]) return false;
-    return rooms[roomId].password === processPassword(password);
+    const stored = rooms[roomId]?.password;
+    if (typeof stored !== 'string') return false;
+
+    // Compare the digests in constant time
+    const expected = Buffer.from(stored, 'hex');
+    const actual = Buffer.from(processPassword(password), 'hex');
+    return expected.length === actual.length && crypto.timingSafeEqual(expected, actual);
 }
 
 module.exports = {
