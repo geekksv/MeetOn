@@ -3,7 +3,7 @@
 const MASK = '********';
 
 // Keys whose values must never be written to the logs
-const SECRET_KEY = /(secret|password|credential|jwt_key|token)$/i;
+const SECRET_KEY = /(secret|password|pass|credential|jwt_key|token|authorization|cookie)$/i;
 
 function isPlainObject(value) {
     if (!value || typeof value !== 'object') return false;

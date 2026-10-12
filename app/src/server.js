@@ -296,7 +296,7 @@ app.use((req, res, next) => {
         ip: ipAddress,
         method: req.method,
         path: req.originalUrl,
-        body: req.body,
+        body: redact(req.body),
         //headers: req.headers,
     });
     next();
@@ -306,8 +306,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError || err.status === 400 || 'body' in err) {
         log.error('Request Error', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
             error: err.message,
         });
         return res.status(400).send({ status: 404, message: err.message }); // Bad request
@@ -591,8 +591,8 @@ app.get(`${apiBasePath}/stats`, (req, res) => {
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
         log.debug('MeetOn get stats - Unauthorized', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
         });
         return res.status(403).json({ error: 'Unauthorized!' });
     }
@@ -606,8 +606,8 @@ app.get(`${apiBasePath}/stats`, (req, res) => {
     });
     // log.debug the output if all done
     log.debug('MeetOn get stats - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         timestamp,
         totalRooms,
         totalPeers,
@@ -627,8 +627,8 @@ app.post(`${apiBasePath}/token`, (req, res) => {
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
         log.debug('MeetOn get token - Unauthorized', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
         });
         return res.status(403).json({ error: 'Unauthorized!' });
     }
@@ -637,8 +637,8 @@ app.post(`${apiBasePath}/token`, (req, res) => {
     res.json({ token: token });
     // log.debug the output if all done
     log.debug('MeetOn get token - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         token: token,
     });
 });
@@ -656,8 +656,8 @@ app.get(`${apiBasePath}/meetings`, (req, res) => {
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
         log.debug('MeetOn get meetings - Unauthorized', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
         });
         return res.status(403).json({ error: 'Unauthorized!' });
     }
@@ -666,8 +666,8 @@ app.get(`${apiBasePath}/meetings`, (req, res) => {
     res.json({ meetings: meetings });
     // log.debug the output if all done
     log.debug('MeetOn get meetings - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         meetings: meetings,
     });
 });
@@ -684,16 +684,16 @@ app.post(`${apiBasePath}/meeting`, (req, res) => {
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
         log.debug('MeetOn get meeting - Unauthorized', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
         });
         return res.status(403).json({ error: 'Unauthorized!' });
     }
     const meetingURL = api.getMeetingURL();
     res.json({ meeting: meetingURL });
     log.debug('MeetOn get meeting - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         meeting: meetingURL,
     });
 });
@@ -710,16 +710,16 @@ app.post(`${apiBasePath}/join`, (req, res) => {
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
         log.debug('MeetOn get join - Unauthorized', {
-            header: req.headers,
-            body: req.body,
+            header: redact(req.headers),
+            body: redact(req.body),
         });
         return res.status(403).json({ error: 'Unauthorized!' });
     }
     const joinURL = api.getJoinURL(req.body);
     res.json({ join: joinURL });
     log.debug('MeetOn get join - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         join: joinURL,
     });
 });
@@ -750,8 +750,8 @@ app.get(`${apiBasePath}/activeRooms`, (req, res) => {
 
     // log.debug the output if all done
     log.debug('MeetOn get active rooms - Authorized', {
-        header: req.headers,
-        body: req.body,
+        header: redact(req.headers),
+        body: redact(req.body),
         activeRooms: activeRooms,
     });
 });

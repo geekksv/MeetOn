@@ -54,6 +54,24 @@ describe('test-redact', () => {
             });
         });
 
+        it('should mask credentials sent in request headers', () => {
+            const headers = Object.create(null);
+            headers.host = 'example.com';
+            headers.authorization = 'api-secret';
+            headers.cookie = 'MeetOn_room_pass_room1=true';
+
+            redact(headers).should.eql({ host: 'example.com', authorization: MASK, cookie: MASK });
+        });
+
+        it('should mask passwords sent in request bodies', () => {
+            redact({ roomId: 'room1', roomPass: 'room-secret' }).should.eql({ roomId: 'room1', roomPass: MASK });
+            redact({ roomId: 'room1', password: 'room-secret' }).should.eql({ roomId: 'room1', password: MASK });
+            redact({ room: 'room1', token: { username: 'user', password: 'user-pass' } }).should.eql({
+                room: 'room1',
+                token: { username: 'user', password: MASK },
+            });
+        });
+
         it('should leave no secret in the serialised output', () => {
             const output = JSON.stringify(redact({ nested: [{ deep: { password: 'find-me' } }] }));
             output.should.not.containEql('find-me');
