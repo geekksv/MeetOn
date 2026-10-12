@@ -26,8 +26,7 @@ module.exports = {
             type: 'app-webrtc',
             siteName: 'MeetOn',
             title: 'Click the link to join the call.',
-            description:
-                'Free peer-to-peer HD video calls. No downloads or sign-ups required.',
+            description: 'Free peer-to-peer HD video calls. No downloads or sign-ups required.',
             image: '',
             url: 'https://MeetOn.duckdns.org',
         },

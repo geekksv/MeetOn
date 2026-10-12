@@ -24,8 +24,7 @@ class HtmlInjector {
             OG_SITE_NAME: this.config?.og?.siteName || 'MeetOn',
             OG_TITLE: this.config?.og?.title || 'Click the link to make a call.',
             OG_DESCRIPTION:
-                this.config?.og?.description ||
-                'Free peer-to-peer HD video calls. No downloads or sign-ups required.',
+                this.config?.og?.description || 'Free peer-to-peer HD video calls. No downloads or sign-ups required.',
             OG_IMAGE: this.config?.og?.image || '',
             OG_URL: this.config?.og?.url || 'https://MeetOn.duckdns.org',
             // Add more data here as needed with fallbacks
