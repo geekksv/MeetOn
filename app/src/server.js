@@ -59,6 +59,7 @@ const HtmlInjector = require('./htmlInjector');
 const Host = require('./host');
 const roomManager = require('./roomManager');
 const Logs = require('./logs');
+const redact = require('./redact');
 const log = new Logs('server');
 const cookieParser = require('cookie-parser');
 const auth = require('./auth');
@@ -837,7 +838,7 @@ server.listen(port, null, () => {
         'font-family:monospace'
     );
 
-    log.info('Server config', getServerConfig());
+    log.info('Server config', redact(getServerConfig()));
 });
 
 /**
