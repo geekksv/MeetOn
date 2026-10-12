@@ -1,5 +1,7 @@
 # MeetOn
 
+[![Tests](https://github.com/geekksv/MeetOn/actions/workflows/test.yml/badge.svg)](https://github.com/geekksv/MeetOn/actions/workflows/test.yml)
+
 Browser-based video calls. No download, no account, no time limit.
 
 **Live:** https://meeton-i4dr.onrender.com
@@ -35,7 +37,25 @@ npm start
 
 Then open http://localhost:3000.
 
-Tests: `npm test`. Dev with reload: `npm run start-dev`.
+Dev with reload: `npm run start-dev`.
+
+---
+
+## Development
+
+| Command | What it does |
+|---|---|
+| `npm test` | Runs the unit tests in `tests/` with Mocha |
+| `npm run format` | Formats `app/` and `tests/` with Prettier |
+| `npm run format:check` | Fails if any of those files is not formatted |
+
+Every pull request runs the format check and the tests on Node 22 and 24, so
+both need to pass locally before you open one.
+
+The tests cover the server-side helpers in `app/src`: API key and join links,
+room passwords, token handling, input validation, XSS sanitising, HTML
+injection, logging and log redaction. They replace the file system with fakes
+where needed and never touch `rooms.json`.
 
 ---
 
@@ -45,6 +65,19 @@ Two files, both gitignored:
 
 - **`.env`** — server, STUN/TURN, auth, API keys
 - **`app/src/config.js`** — branding, UI, buttons
+
+### Secrets
+
+`.env.template` ships with placeholder values for `JWT_KEY` and
+`API_KEY_SECRET`, and the server falls back to built-in defaults when they are
+missing. Those values are public, so set your own before exposing an instance:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Keys, passwords, the `Authorization` header and cookies are masked as
+`********` in the server logs, so a log can be shared without leaking them.
 
 ### TURN
 
