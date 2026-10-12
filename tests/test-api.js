@@ -34,6 +34,23 @@ describe('test-api', () => {
             serverApi = new ServerApi(host, 'wrong-key', apiKeySecret);
             serverApi.isAuthorized().should.be.false();
         });
+
+        it('should return false when the keys differ only in length', () => {
+            new ServerApi(host, 'secret-key-extra', apiKeySecret).isAuthorized().should.be.false();
+            new ServerApi(host, 'secret', apiKeySecret).isAuthorized().should.be.false();
+        });
+
+        it('should return false when no authorization is sent', () => {
+            new ServerApi(host, undefined, apiKeySecret).isAuthorized().should.be.false();
+            new ServerApi(host, null, apiKeySecret).isAuthorized().should.be.false();
+            new ServerApi(host, '', apiKeySecret).isAuthorized().should.be.false();
+        });
+
+        it('should return false when no api key secret is configured', () => {
+            new ServerApi(host).isAuthorized().should.be.false();
+            new ServerApi(host, undefined, undefined).isAuthorized().should.be.false();
+            new ServerApi(host, '', '').isAuthorized().should.be.false();
+        });
     });
 
     describe('getStats', () => {
