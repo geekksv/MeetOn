@@ -157,6 +157,15 @@ describe('test-api', () => {
             tokenStub.restore();
         });
 
+        it('should encode a room name that contains reserved characters', () => {
+            const result = serverApi.getJoinURL({ room: 'team sync & review', name: 'John' });
+            result.should.startWith('https://example.com/join?room=team%20sync%20%26%20review&name=John&');
+
+            const params = new URL(result).searchParams;
+            params.get('room').should.equal('team sync & review');
+            params.get('name').should.equal('John');
+        });
+
         it('should use default values when data is not provided', () => {
             const randomStub = sinon.stub().returns('123456');
             const uuidV4Stub = sinon.stub().returns('room1');

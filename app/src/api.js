@@ -76,7 +76,7 @@ module.exports = class ServerApi {
             this.getProtocol() +
             this._host +
             '/join?' +
-            `room=${roomValue}` +
+            `room=${encodeURIComponent(roomValue)}` +
             `&name=${encodeURIComponent(nameValue)}` +
             `&avatar=${encodeURIComponent(avatarValue)}` +
             `&audio=${audioValue}` +
