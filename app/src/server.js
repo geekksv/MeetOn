@@ -176,7 +176,6 @@ const api_key_secret = process.env.API_KEY_SECRET || 'mirotalkp2p_default_secret
 const apiDisabledString = process.env.API_DISABLED || '["token", "meetings"]';
 const api_disabled = JSON.parse(apiDisabledString);
 
-
 // Stun (https://bloggeek.me/webrtcglossary/stun/)
 // Turn (https://bloggeek.me/webrtcglossary/turn/)
 const iceServers = [];
@@ -212,8 +211,6 @@ const ipWhitelist = {
     allowed: process.env.IP_WHITELIST_ALLOWED ? JSON.parse(process.env.IP_WHITELIST_ALLOWED) : [],
 };
 
-
-
 // directory
 const dir = {
     public: path.join(__dirname, '../../', 'public'),
@@ -237,7 +234,15 @@ const views = {
 const brandHtmlInjection = config?.brand?.htmlInjection ?? true;
 
 // File to cache and inject custom HTML data like OG tags and any other elements.
-const filesPath = [views.landing, views.newCall, views.client, views.login, views.activeRooms, views.customizeRoom, views.guestJoin];
+const filesPath = [
+    views.landing,
+    views.newCall,
+    views.client,
+    views.login,
+    views.activeRooms,
+    views.customizeRoom,
+    views.guestJoin,
+];
 const htmlInjector = new HtmlInjector(filesPath, config?.brand || null);
 
 const peers = {}; // roomId -> { socketId: { ... }, ... }
@@ -263,8 +268,6 @@ const staticOptions = {
 
 // Serve static files from root (/)
 app.use(express.static(dir.public, staticOptions));
-
-
 
 app.use(cors(corsOptions)); // Enable CORS with options
 app.use(compression()); // Compress all HTTP responses using GZip
@@ -298,8 +301,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
 // Remove trailing slashes in url handle bad requests
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError || err.status === 400 || 'body' in err) {
@@ -317,7 +318,6 @@ app.use((err, req, res, next) => {
         next();
     }
 });
-
 
 // main page
 app.get('/', (req, res) => {
@@ -343,7 +343,6 @@ app.get('/activeRooms', (req, res) => {
 app.get('/customizeRoom', (req, res) => {
     htmlInjector.injectHtml(views.customizeRoom, res);
 });
-
 
 // mirotalk about
 app.get(['/about'], (req, res) => {
@@ -375,8 +374,6 @@ app.post('/isRoomActive', (req, res) => {
         res.status(400).json({ message: 'Unauthorized' });
     }
 });
-
-
 
 // Handle Direct join room with params
 app.get('/join/', async (req, res) => {
@@ -441,7 +438,7 @@ app.get('/join/', async (req, res) => {
         const hostUserAuthenticated = hostCfg.protected && hostCfg.authenticated;
 
         // Peer valid going to auth as host
-        if ((hostCfg.protected && isPeerValid && isPeerPresenter && !hostCfg.authenticated)) {
+        if (hostCfg.protected && isPeerValid && isPeerPresenter && !hostCfg.authenticated) {
             const ip = getIP(req);
             hostCfg.authenticated = true;
             authHost.setAuthorizedIP(ip, true);
@@ -726,8 +723,6 @@ app.post(`${apiBasePath}/join`, (req, res) => {
     });
 });
 
-
-
 /**
  * Request meeting room endpoint
  * @returns  entrypoint / Room URL for your meeting.
@@ -913,7 +908,7 @@ io.sockets.on('connect', async (socket) => {
         // In Mirotalk, 'presenters' are often the hosts.
         io.to(roomId).emit('peerKnocking', {
             guestId: socket.id,
-            guestName: guestName
+            guestName: guestName,
         });
     });
 
@@ -1153,7 +1148,7 @@ io.sockets.on('connect', async (socket) => {
             for (let guestId in guestLobby[channel]) {
                 socket.emit('peerKnocking', {
                     guestId: guestId,
-                    guestName: guestLobby[channel][guestId]
+                    guestName: guestLobby[channel][guestId],
                 });
             }
         }
@@ -1644,7 +1639,6 @@ io.sockets.on('connect', async (socket) => {
             return log.debug('[' + socket.id + '] [Warning] not in ', channel);
         }
         try {
-
             delete socket.channels[channel];
             delete channels[channel][socket.id];
             delete peers[channel][socket.id]; // delete peer data from the room

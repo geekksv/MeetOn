@@ -111,11 +111,7 @@ function login(email, password) {
  * @returns {string} JWT token
  */
 function createToken(user) {
-    return jwt.sign(
-        { id: user.id, name: user.name, email: user.email },
-        JWT_SECRET,
-        { expiresIn: JWT_EXPIRES },
-    );
+    return jwt.sign({ id: user.id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES });
 }
 
 /**

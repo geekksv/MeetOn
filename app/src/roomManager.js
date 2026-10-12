@@ -39,7 +39,7 @@ function writeRooms(rooms) {
 
 /**
  * Simple password check (Hash password using SHA-256)
- * @param {string} password 
+ * @param {string} password
  * @returns {string} hashed password
  */
 function processPassword(password) {
